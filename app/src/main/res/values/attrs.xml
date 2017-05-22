@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<declare-styleable name="OurView">
+		<attr name="textSize" format="dimension"></attr>
+		<attr name="ballSize" format="dimension"></attr>
+	</declare-styleable>
+
+	<declare-styleable name="CustomFont">
+		<attr name="fontFamily" format="string" />
+	</declare-styleable>
+</resources>

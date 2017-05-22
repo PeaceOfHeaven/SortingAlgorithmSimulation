@@ -4,12 +4,9 @@
 	android:id="@+id/activity_main"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	tools:context="universe.sortalgorithmssimulation.MainActivity">
-
-	<!--<universe.sortalgorithmssimulation.MyCustomView
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />-->
-
+	android:background="@color/colorPrimary"
+	tools:context="universe.sortalgorithmssimulation.activity.MainActivity">
+	
 	<Button
 		android:text="Go"
 		android:layout_width="wrap_content"
