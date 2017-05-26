@@ -249,7 +249,7 @@ public class TestActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(sortAlgorithmInfo.getAlgorithmExecuteable() != null) {
-                        Intent intent = new Intent(TestActivity.this, CoorActivity.class);
+                        Intent intent = new Intent(TestActivity.this, SimulationActivity.class);
                         intent.putExtra("type", sortAlgorithmInfo.getType());
                         startActivity(intent);
                     }

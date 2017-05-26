@@ -3,16 +3,16 @@ package universe.sortalgorithmssimulation.activity.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.BinaryInsertionSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.model.Ball;
 
 /**
- * Created by Nhat on 5/23/2017.
+ * Created by Nhat on 5/26/2017.
  */
 
-public class InsertionSortView extends BaseSortView implements InsertionSortPresenter.View {
+public class BinaryInsertionSortView extends BaseSortView implements BinaryInsertionSortPresenter.View {
 
-    public InsertionSortView(Context context) {
+    public BinaryInsertionSortView(Context context) {
         super(context);
     }
 
@@ -84,7 +84,7 @@ public class InsertionSortView extends BaseSortView implements InsertionSortPres
 
         Ball temp = mBalls[index];
         for (int i = index; i > leftPos ; i--) {
-           mBalls[i] = mBalls[i-1];
+            mBalls[i] = mBalls[i-1];
         }
         mBalls[leftPos] = temp;
     }

@@ -33,7 +33,7 @@ public class InsertionSort extends BaseSortAlgorithm {
         }
 
         @Override
-        public void onSelectedBall(int index) {
+        public void onSelectedElement(int index) {
 
         }
     };
@@ -56,7 +56,7 @@ public class InsertionSort extends BaseSortAlgorithm {
         for (int i = 1; i < elements.length && isRunning; i++) {
             int x = elements[i];
             int pos = i - 1;
-            callback.onSelectedBall(i);
+            callback.onSelectedElement(i);
             if ((pos >= 0) && (elements[pos] > x)) {
                 while ((pos >= 0) && (elements[pos] > x) && isRunning) {
                     elements[pos + 1] = elements[pos];
@@ -67,17 +67,15 @@ public class InsertionSort extends BaseSortAlgorithm {
                 }
             }
             elements[pos + 1] = x;
-            // Move smaller ball to the right pos
             callback.onShiftLeftElement(i, pos + 1);
         }
         callback.onFinished(elements);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {
-
         void onCompare(int index, boolean enable);
 
-        void onSelectedBall(int index);
+        void onSelectedElement(int index);
 
         void onShiftRightElementByOne(int index);
 

@@ -20,21 +20,24 @@ import timber.log.Timber;
 import universe.sortalgorithmssimulation.R;
 import universe.sortalgorithmssimulation.SortAlogirthmsApplication;
 import universe.sortalgorithmssimulation.activity.presenters.BaseSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.BinaryInsertionSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.BubbleSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.SelectionSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.BaseSortView;
+import universe.sortalgorithmssimulation.activity.views.BinaryInsertionSortView;
 import universe.sortalgorithmssimulation.activity.views.BubbleSortView;
 import universe.sortalgorithmssimulation.activity.views.InsertionSortView;
 import universe.sortalgorithmssimulation.activity.views.SelectionSortView;
 import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
 import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
 
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BINARY_INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
 
-public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Callback, BaseSortPresenter.MainView {
+public class SimulationActivity extends AppCompatActivity implements SurfaceHolder.Callback, BaseSortPresenter.MainView {
 
     @BindView(R.id.surface_container)
     FrameLayout surfaceContainer;
@@ -87,6 +90,8 @@ public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 return new BubbleSortPresenter(sortAlgorithmExecutable, elements, this, view);
             case INSERTION_SORT:
                 return new InsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
+            case BINARY_INSERTION_SORT:
+                return new BinaryInsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
             case SELECTION_SORT:
                 return new SelectionSortPresenter(sortAlgorithmExecutable, elements, this, view);
         }
@@ -99,6 +104,8 @@ public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 return new BubbleSortView(this);
             case INSERTION_SORT:
                 return new InsertionSortView(this);
+            case BINARY_INSERTION_SORT:
+                return new BinaryInsertionSortView(this);
             case SELECTION_SORT:
                 return new SelectionSortView(this);
         }

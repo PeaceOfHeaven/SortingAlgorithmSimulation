@@ -2,6 +2,7 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 
 import universe.sortalgorithmssimulation.R;
 
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BINARY_INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
@@ -76,6 +77,9 @@ public class SortAlgorithmInfo {
                 break;
             case INSERTION_SORT:
                 sortAlgorithm = new InsertionSort();
+                break;
+            case BINARY_INSERTION_SORT:
+                sortAlgorithm = new BinaryInsertionSort();
                 break;
             case SELECTION_SORT:
                 sortAlgorithm = new SelectionSort();

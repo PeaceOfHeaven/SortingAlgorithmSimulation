@@ -9,7 +9,8 @@ import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
  */
 
 public abstract class BaseSortPresenter  {
-    private static final int DELAY_TIME = 300;
+    private static final int DELAY_SHORT_TIME = 200;
+    private static final int DELAY_NORMAL_TIME = 400;
 
     protected final MainView mMainView;
     protected final BaseSortAlgorithm mSortAlogrithm;
@@ -89,7 +90,15 @@ public abstract class BaseSortPresenter  {
 
     protected void delay() {
         try {
-            Thread.sleep(DELAY_TIME);
+            Thread.sleep(DELAY_SHORT_TIME);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void delayNormal() {
+        try {
+            Thread.sleep(DELAY_NORMAL_TIME);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

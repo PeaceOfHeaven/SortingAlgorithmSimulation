@@ -19,7 +19,7 @@
 		<activity
 			android:name=".activity.TestActivity"
 			android:launchMode="singleTop" />
-		<activity android:name=".activity.CoorActivity">
+		<activity android:name=".activity.SimulationActivity">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".activity.TestActivity" />
