@@ -17,14 +17,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
-import universe.sortalgorithmssimulation.sorting_algorithms.BubbleSort2;
 import universe.sortalgorithmssimulation.R;
-import universe.sortalgorithmssimulation.activity.views.SortAlgorithmsSortView;
-import universe.sortalgorithmssimulation.activity.presenters.SortPresenter;
+import universe.sortalgorithmssimulation.SortAlogirthmsApplication;
+import universe.sortalgorithmssimulation.activity.presenters.BaseSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.BubbleSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.SelectionSortPresenter;
+import universe.sortalgorithmssimulation.activity.views.BaseSortView;
+import universe.sortalgorithmssimulation.activity.views.BubbleSortView;
+import universe.sortalgorithmssimulation.activity.views.InsertionSortView;
+import universe.sortalgorithmssimulation.activity.views.SelectionSortView;
+import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
+import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
 
-public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Callback, SortPresenter.MainView {
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
 
-    int elements[] = new int[]{5, 3, 7, 10, 4, 8};
+public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Callback, BaseSortPresenter.MainView {
 
     @BindView(R.id.surface_container)
     FrameLayout surfaceContainer;
@@ -32,34 +42,67 @@ public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Cal
     @BindView(R.id.btn_pause_resume)
     FloatingActionButton pauseResumeFab;
 
-    private SortPresenter mPresenter;
+    private BaseSortPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coor);
         getWindow().setBackgroundDrawable(null);
-
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        int type = intent.getIntExtra("type", -1);
+        SortAlgorithmInfo sortAlgorithmInfo = SortAlogirthmsApplication.getSortAlgorithm(type);
+        if (sortAlgorithmInfo == null) {
+            finish();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Bubble Sort");
+        getSupportActionBar().setTitle(sortAlgorithmInfo.getTitle());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             findViewById(R.id.elevation_pre_lollipop).setVisibility(View.GONE);
         }
 
-        SortAlgorithmsSortView surface = new SortAlgorithmsSortView(this);
+        BaseSortView surface = getView(type);
         surface.getHolder().addCallback(this);
 
-        BubbleSort2 bubbleSort2 = new BubbleSort2();
+        BaseSortAlgorithm sortAlgorithmExecutable = SortAlogirthmsApplication
+                .getSortAlgorithm(type).getAlgorithmExecuteable();
 
-        elements = new int[]{8, 6, 5, 3, 2, 10, 0};
-        mPresenter = new SortPresenter(bubbleSort2, this, surface, elements);
+        int[] elements = new int[]{8, 6, 1, 3, 2, 10, 4};
+        mPresenter = getPresenter(type, elements, sortAlgorithmExecutable, surface);
 
         surfaceContainer.addView(surface);
+    }
+
+    private BaseSortPresenter getPresenter(int type, int[] elements,
+                                           BaseSortAlgorithm sortAlgorithmExecutable,
+                                           BaseSortView view) {
+        switch (type) {
+            case BUBBLE_SORT:
+                return new BubbleSortPresenter(sortAlgorithmExecutable, elements, this, view);
+            case INSERTION_SORT:
+                return new InsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
+            case SELECTION_SORT:
+                return new SelectionSortPresenter(sortAlgorithmExecutable, elements, this, view);
+        }
+        return null;
+    }
+
+    private BaseSortView getView(int type) {
+        switch (type) {
+            case BUBBLE_SORT:
+                return new BubbleSortView(this);
+            case INSERTION_SORT:
+                return new InsertionSortView(this);
+            case SELECTION_SORT:
+                return new SelectionSortView(this);
+        }
+        return null;
     }
 
     @Override
@@ -114,7 +157,7 @@ public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     @OnClick(R.id.btn_pause_resume)
     public void togglePauseResume() {
-        if(mPresenter.isRunning()) {
+        /*if(mPresenter.isRunning()) {
             if(mPresenter.isPaused()) {
                 mPresenter.resume();
             } else {
@@ -122,6 +165,12 @@ public class CoorActivity extends AppCompatActivity implements SurfaceHolder.Cal
             }
         } else {
             mPresenter.start();
+        }*/
+
+        if(mPresenter.isPaused()) {
+            mPresenter.start();
+        } else {
+            mPresenter.pause();
         }
     }
 

@@ -98,11 +98,11 @@
 		</RelativeLayout>
 	</LinearLayout>
 	
-	<android.support.v4.sortView.ViewPager
+	<android.support.v4.bubbleSortView.ViewPager
 		android:id="@+id/pager_info"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 		
-	</android.support.v4.sortView.ViewPager>
+	</android.support.v4.bubbleSortView.ViewPager>
 
 </LinearLayout>

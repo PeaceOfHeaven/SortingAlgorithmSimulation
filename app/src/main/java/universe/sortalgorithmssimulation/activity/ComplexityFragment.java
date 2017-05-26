@@ -29,17 +29,16 @@ public class ComplexityFragment extends SimpleFragment {
         mChart = (LineChart) v.findViewById(R.id.lineChart1);
 
         mChart.getDescription().setEnabled(false);
-        mChart.setDragEnabled(false);
+        mChart.setDragEnabled(true);
         mChart.setDoubleTapToZoomEnabled(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setScaleXEnabled(false);
-        mChart.setScaleYEnabled(false);
+        mChart.setDrawGridBackground(true);
+        mChart.setScaleXEnabled(true);
+        mChart.setScaleYEnabled(true);
 
         mChart.setData(getComplexity());
         mChart.animateX(1000);
         
         //Typeface tf = Typeface.createFromAsset(getActivity().getAssets(),"OpenSans-Light.ttf");
-
         
         YAxis leftYAxis = mChart.getAxisLeft();
         leftYAxis.setDrawLabels(false);
@@ -55,8 +54,6 @@ public class ComplexityFragment extends SimpleFragment {
 
         mChart.setExtraBottomOffset(16);
         mChart.getLegend().setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        /*mChart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        mChart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);*/
         return v;
     }
 }

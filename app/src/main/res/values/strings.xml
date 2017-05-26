@@ -21,9 +21,7 @@
 		<item>@color/colorPrimary</item>
 	</array>
 	
-	
 	<string name="info_buble_sort_idea">The main idea behind BubbleSort is to find the biggest key value and to move that record to the end of the list. This moving is done by comparing the key value of the actual record with the key value of the next record. If the key value of the next record is smaller, the two records are swapped; if the value is bigger, the candidate for having the biggest key value is from then on the next record.\n\nThe algorithm works with an outer and an inner loop. After the first repetition of the outer loop the record with the biggest key value is definitely on top of the list. When searching for the second biggest key value, it is not necessary to compare it with the last element, since we already know the result of such a compare; the number of repetitions of the inner loop is decreased by one with every repetition of the outer loop</string>
-	
 	<string name="info_buble_sort_pesudo">procedure bubbleSort( A : list of sortable items )\n
     \t\tn = length(A)\n
     \t\trepeat\n

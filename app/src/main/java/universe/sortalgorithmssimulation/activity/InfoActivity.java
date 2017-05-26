@@ -23,7 +23,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentStatePagerItemAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import universe.sortalgorithmssimulation.R;
-import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithm;
+import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
 
 public class InfoActivity extends AppCompatActivity {
 
@@ -77,7 +77,7 @@ public class InfoActivity extends AppCompatActivity {
 
         static final int NUM_ITEMS = 3;
 
-        private SortAlgorithm mSortAlgorithm;
+        private SortAlgorithmInfo mSortAlgorithmInfo;
 
         public InfoAdapter(FragmentManager fm) {
             super(fm, FragmentPagerItems.with(InfoActivity.this)

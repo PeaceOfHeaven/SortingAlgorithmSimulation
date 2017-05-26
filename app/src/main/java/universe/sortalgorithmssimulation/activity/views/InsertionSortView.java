@@ -1,0 +1,89 @@
+package universe.sortalgorithmssimulation.activity.views;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+
+import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
+import universe.sortalgorithmssimulation.activity.views.model.Ball;
+
+/**
+ * Created by Nhat on 5/23/2017.
+ */
+
+public class InsertionSortView extends BaseSortView implements InsertionSortPresenter.View {
+
+    public InsertionSortView(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void showBalls(int[] elements) {
+        initBalls(elements);
+    }
+
+    @Override
+    public void showFinished(int[] elements) {
+        for (Ball ball : mBalls) {
+            ball.switchBall(mFinishedBall);
+        }
+        drawPanel();
+    }
+
+    @Override
+    public void highlightComparingBall(int index, boolean active) {
+        Bitmap ballBitmap = active ? mComparingBall : mIdleBall;
+        mBalls[index].switchBall(ballBitmap);
+        drawPanel();
+    }
+
+    @Override
+    public void moveSelectedBall(int index) {
+        float y = mBalls[index].y - mBallDistance;
+        int step = (int) ((mBalls[index].y - y) * 0.1);
+
+        while(mBalls[index].y >= y) {
+            mBalls[index].y -= step;
+            drawPanel();
+        }
+    }
+
+    @Override
+    public void moveGreaterBallToRight(int index) {
+        float rightPosX = mBalls[index].x + mBallDistance;
+        int step = (int) ((rightPosX - mBalls[index].x) * 0.1);
+
+        while (mBalls[index].x < rightPosX) {
+            mBalls[index].x += step;
+            if(mBalls[index].x > rightPosX) {
+                mBalls[index].x = rightPosX;
+            }
+            drawPanel();
+        }
+    }
+
+    @Override
+    public void moveLesserBallToLeft(final int index, int leftPos) {
+        final float leftPosX = mBalls[index].x - mBallDistance * (index - leftPos);
+        int step = (int) ((mBalls[index].x - leftPosX) * 0.1);
+        while (mBalls[index].x > leftPosX) {
+            mBalls[index].x -= step;
+            if(mBalls[index].x < leftPosX) {
+                mBalls[index].x = leftPosX;
+            }
+            drawPanel();
+        }
+
+        float y = mBalls[index].y + mBallDistance;
+        step = (int) ((y - mBalls[index].y) * 0.1);
+        while(mBalls[index].y <= y) {
+            mBalls[index].y += step;
+            drawPanel();
+        }
+
+        Ball temp = mBalls[index];
+        for (int i = index; i > leftPos ; i--) {
+           mBalls[i] = mBalls[i-1];
+        }
+        mBalls[leftPos] = temp;
+    }
+}

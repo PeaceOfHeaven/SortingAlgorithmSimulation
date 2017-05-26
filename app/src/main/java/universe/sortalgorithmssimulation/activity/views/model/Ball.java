@@ -10,24 +10,17 @@ public class Ball {
 
     public float x;
     public float y;
-
     public String text;
-
     private Bitmap mBallBitmap;
 
-    Paint p = new Paint(Paint.FILTER_BITMAP_FLAG);
-
     private final Rect txtBounds = new Rect();
-    private final Paint mTextPaint = new Paint();
+    private static final Paint mTextPaint = new Paint();
 
     public Ball(float x, float y, String text, Bitmap blueBall, float scale) {
         this.x = x;
         this.y = y;
         this.text = text;
         mBallBitmap = blueBall;
-
-        p.setFilterBitmap(true);
-        p.setAntiAlias(true);
 
         mTextPaint.setTextSize(scale);
         mTextPaint.getTextBounds(text, 0, text.length(), txtBounds);
@@ -37,8 +30,8 @@ public class Ball {
         mBallBitmap = ballBitmap;
     }
 
-    public void drawBall(Canvas canvas) {
-        canvas.drawBitmap(mBallBitmap, x, y, p);
+    public void drawBall(Canvas canvas, Paint paint) {
+        canvas.drawBitmap(mBallBitmap, x, y, paint);
     }
 
     public void drawTextBall(Canvas canvas, Paint textPaint) {
