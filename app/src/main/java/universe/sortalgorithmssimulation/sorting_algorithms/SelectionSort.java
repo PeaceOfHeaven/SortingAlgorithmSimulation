@@ -35,10 +35,9 @@ public class SelectionSort extends BaseSortAlgorithm {
         }
     };
 
-    @Override
     public void setCallback(BaseSortAlgorithm.Callback callback) {
         if (callback != null && !(callback instanceof SelectionSort.Callback)) {
-            throw new IllegalArgumentException("callback should be SelectionSort.Callback");
+            throw new IllegalArgumentException("quickSortCallback should be SelectionSort.Callback");
         } else if(callback == null) {
             callback = mFakeCallback;
         }
@@ -48,7 +47,7 @@ public class SelectionSort extends BaseSortAlgorithm {
     @Override
     protected void execute() {
         SelectionSort.Callback callback = (Callback) mCallback;
-        callback.onPreExecute(elements);
+
         for(int i = 0; i < elements.length-1 && isRunning; i++) {
             int min = i;
             callback.onMinChange(i, -1);
@@ -71,7 +70,6 @@ public class SelectionSort extends BaseSortAlgorithm {
             callback.onSortedBall(i);
         }
         callback.onSortedBall(elements.length-1);
-        callback.onFinished(elements);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {

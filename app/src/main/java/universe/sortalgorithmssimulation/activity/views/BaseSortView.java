@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -98,6 +99,16 @@ public abstract class BaseSortView extends SurfaceView {
         Canvas canvas = mSurfaceHolder.lockCanvas();
         if (canvas != null) {
             canvas.drawColor(Color.WHITE);
+            drawBalls(canvas);
+            mSurfaceHolder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    protected void drawPath(Path path) {
+        Canvas canvas = mSurfaceHolder.lockCanvas();
+        if (canvas != null) {
+            canvas.drawColor(Color.WHITE);
+            canvas.drawPath(path, mTxtBallStyle);
             drawBalls(canvas);
             mSurfaceHolder.unlockCanvasAndPost(canvas);
         }

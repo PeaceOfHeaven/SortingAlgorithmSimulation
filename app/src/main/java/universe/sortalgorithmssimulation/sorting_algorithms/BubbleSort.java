@@ -38,10 +38,9 @@ public class BubbleSort extends BaseSortAlgorithm {
         mCallback = mFakeCallback;
     }
 
-    @Override
     public void setCallback(BaseSortAlgorithm.Callback callback) {
         if (callback != null && !(callback instanceof BubbleSort.Callback)) {
-            throw new IllegalArgumentException("callback should be BubbleSort.Callback");
+            throw new IllegalArgumentException("quickSortCallback should be BubbleSort.Callback");
         } else if (callback == null) {
             callback = mFakeCallback;
         }
@@ -51,7 +50,6 @@ public class BubbleSort extends BaseSortAlgorithm {
     @Override
     protected void execute() {
         BubbleSort.Callback callback = (Callback) mCallback;
-        callback.onPreExecute(elements);
 
         for (int i = 0; i < elements.length - 1 && isRunning; i++) {
             for (int j = elements.length - 1; j > i && isRunning; j--) {
@@ -69,7 +67,6 @@ public class BubbleSort extends BaseSortAlgorithm {
             callback.onSortedBall(i);
         }
         callback.onSortedBall(elements.length - 1);
-        callback.onFinished(elements);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {

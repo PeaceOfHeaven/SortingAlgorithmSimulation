@@ -23,11 +23,13 @@ import universe.sortalgorithmssimulation.activity.presenters.BaseSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.BinaryInsertionSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.BubbleSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
+import universe.sortalgorithmssimulation.activity.presenters.QuickSortPresenter;
 import universe.sortalgorithmssimulation.activity.presenters.SelectionSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.BaseSortView;
 import universe.sortalgorithmssimulation.activity.views.BinaryInsertionSortView;
 import universe.sortalgorithmssimulation.activity.views.BubbleSortView;
 import universe.sortalgorithmssimulation.activity.views.InsertionSortView;
+import universe.sortalgorithmssimulation.activity.views.QuickSortView;
 import universe.sortalgorithmssimulation.activity.views.SelectionSortView;
 import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
 import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
@@ -35,6 +37,7 @@ import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BINARY_INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.QUICK_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
 
 public class SimulationActivity extends AppCompatActivity implements SurfaceHolder.Callback, BaseSortPresenter.MainView {
@@ -94,6 +97,8 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
                 return new BinaryInsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
             case SELECTION_SORT:
                 return new SelectionSortPresenter(sortAlgorithmExecutable, elements, this, view);
+            case QUICK_SORT:
+                return new QuickSortPresenter(sortAlgorithmExecutable, elements, this, view);
         }
         return null;
     }
@@ -108,6 +113,8 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
                 return new BinaryInsertionSortView(this);
             case SELECTION_SORT:
                 return new SelectionSortView(this);
+            case QUICK_SORT:
+                return new QuickSortView(this);
         }
         return null;
     }

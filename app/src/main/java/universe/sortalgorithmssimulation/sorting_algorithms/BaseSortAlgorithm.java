@@ -36,8 +36,10 @@ public abstract class BaseSortAlgorithm implements Runnable {
 
     private void executeIfNotRunning() {
         if (!isRunning) {
+            mCallback.onPreExecute(elements);
             isRunning = true;
             execute();
+            mCallback.onFinished(elements);
             isRunning = false;
         }
     }

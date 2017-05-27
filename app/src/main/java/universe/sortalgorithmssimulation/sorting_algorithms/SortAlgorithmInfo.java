@@ -5,6 +5,7 @@ import universe.sortalgorithmssimulation.R;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BINARY_INSERTION_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
+import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.QUICK_SORT;
 import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
 
 /**
@@ -83,6 +84,9 @@ public class SortAlgorithmInfo {
                 break;
             case SELECTION_SORT:
                 sortAlgorithm = new SelectionSort();
+                break;
+            case QUICK_SORT:
+                sortAlgorithm = new QuickSort();
                 break;
         }
         return sortAlgorithm;

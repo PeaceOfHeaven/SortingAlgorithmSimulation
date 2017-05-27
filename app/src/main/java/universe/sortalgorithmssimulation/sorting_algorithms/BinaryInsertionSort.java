@@ -38,10 +38,9 @@ public class BinaryInsertionSort extends BaseSortAlgorithm {
         }
     };
 
-    @Override
     public void setCallback(BaseSortAlgorithm.Callback callback) {
         if (callback != null && !(callback instanceof BinaryInsertionSort.Callback)) {
-            throw new IllegalArgumentException("callback should be instance of BinaryInsertionSort.Callback");
+            throw new IllegalArgumentException("quickSortCallback should be instance of BinaryInsertionSort.Callback");
         } else if (callback == null) {
             callback = mFakeCallback;
         }
@@ -51,7 +50,6 @@ public class BinaryInsertionSort extends BaseSortAlgorithm {
     @Override
     protected void execute() {
         BinaryInsertionSort.Callback callback = (Callback) mCallback;
-        callback.onPreExecute(elements);
 
         for(int i = 1; i < elements.length && isRunning; i++) {
             int x = elements[i];
@@ -76,7 +74,6 @@ public class BinaryInsertionSort extends BaseSortAlgorithm {
             elements[left] = x;
             callback.onShiftLeftElement(i, left);
         }
-        callback.onFinished(elements);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {

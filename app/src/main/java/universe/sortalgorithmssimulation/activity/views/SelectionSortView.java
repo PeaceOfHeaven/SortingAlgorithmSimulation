@@ -40,7 +40,7 @@ public class SelectionSortView extends BaseSortView implements SelectionSortPres
         float centerLesserBallX = mBalls[indexLesser].x + ballHalfSize;
         float centerLesserBallY = mBalls[indexLesser].y + ballHalfSize;
 
-        Path path = PathUtils.createBezierCurve(centerGreaterBallX, centerGreaterBallY
+        Path path = PathUtils.createQuadraticBezier(centerGreaterBallX, centerGreaterBallY
                 , centerGreaterBallX + (mBalls[indexLesser].x - mBalls[indexGreater].x) / 2
                 , centerGreaterBallY + mBallSize + ballHalfSize
                 , centerLesserBallX
@@ -74,7 +74,7 @@ public class SelectionSortView extends BaseSortView implements SelectionSortPres
                 balancePos = true;
             }
         }
-        // Swap references
+
         Ball temp = mBalls[indexGreater];
         mBalls[indexGreater] = mBalls[indexLesser];
         mBalls[indexLesser] = temp;
