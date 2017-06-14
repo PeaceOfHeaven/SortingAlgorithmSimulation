@@ -3,7 +3,6 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 4/21/2017.
  */
-
 public class BubbleSort extends BaseSortAlgorithm {
 
     private final Callback mFakeCallback = new Callback() {
@@ -50,8 +49,7 @@ public class BubbleSort extends BaseSortAlgorithm {
     @Override
     protected void execute() {
         BubbleSort.Callback callback = (Callback) mCallback;
-
-        for (int i = 0; i < elements.length - 1 && isRunning; i++) {
+        /*for (int i = 0; i < elements.length - 1 && isRunning; i++) {
             for (int j = elements.length - 1; j > i && isRunning; j--) {
                 // Start Comparing
                 callback.onComparing(j, j - 1, true);
@@ -65,8 +63,27 @@ public class BubbleSort extends BaseSortAlgorithm {
                 callback.onComparing(j, j - 1, false);
             }
             callback.onSortedBall(i);
-        }
-        callback.onSortedBall(elements.length - 1);
+        }*/
+        int i = 0;
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int j = elements.length - 1; j > i && isRunning; j--) {
+                // Start Comparing
+                callback.onComparing(j, j - 1, true);
+                if (elements[j] < elements[j - 1]) {
+                    swapped = true;
+                    int temp = elements[j];
+                    elements[j] = elements[j - 1];
+                    elements[j - 1] = temp;
+                    callback.onSwap(j - 1, j);
+                }
+                // End Comparing
+                callback.onComparing(j, j - 1, false);
+            }
+            callback.onSortedBall(i);
+            i++;
+        } while (swapped && isRunning);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {

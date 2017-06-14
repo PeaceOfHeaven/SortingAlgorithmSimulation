@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:animateLayoutChanges="true"
+	android:background="@drawable/comment_background"
+	android:minHeight="72dp"
+	android:orientation="vertical"
+	android:paddingBottom="16dp"
+	android:paddingTop="16dp"
+	android:stateListAnimator="@drawable/comment_selection">
+	
+	<!-- A CardView that contains a TextView -->
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="horizontal">
+		
+		<com.github.ivbaranov.mli.MaterialLetterIcon
+			android:id="@+id/icon_algorithm_letter"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="16dp"
+			app:mli_letter="B"
+			app:mli_letter_color="@color/white"
+			app:mli_letter_size="26"
+			app:mli_shape_type="circle" />
+		
+		<TextView
+			android:id="@+id/txtView_algorithm_title"
+			style="@style/TextAppearance.AppCompat.Title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginLeft="80dp"
+			android:fontFamily="sans-serif"
+			android:text="TextView" />
+	</FrameLayout>
+	
+	<com.github.mikephil.charting.charts.LineChart
+		android:id="@+id/lineChart1"
+		android:layout_width="match_parent"
+		android:layout_height="250dp"
+		android:layout_marginTop="8dp"
+		android:visibility="gone" />
+</LinearLayout>

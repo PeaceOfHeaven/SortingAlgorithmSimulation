@@ -3,8 +3,12 @@
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
 
-	<dimen name="z_card">2dp</dimen>
+	<dimen name="z_card">3dp</dimen>
 	
 	<dimen name="ball_size">36dp</dimen>
 	<dimen name="text_ball_size">16sp</dimen>
+	
+	<dimen name="toolbar_placeholder_height">@dimen/gif_height</dimen>
+	<dimen name="gif_height">200dp</dimen>
+	<dimen name="picker_recycler_margin">0dp</dimen>
 </resources>

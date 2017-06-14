@@ -3,7 +3,6 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/26/2017.
  */
-
 public class QuickSort extends BaseSortAlgorithm {
 
     private QuickSort.Callback mQuickSortCallback;

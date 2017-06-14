@@ -1,36 +1,41 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-	<!-- Base application theme. -->
-	<!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		&lt;!&ndash; Customize your theme here. &ndash;&gt;
+	<style name="PlaceHolderUI" parent="@style/Theme.AppCompat.Light.NoActionBar">
+		<!-- Customize your theme here. -->
+		<item name="android:windowTitleSize">@dimen/toolbar_placeholder_height</item>
+		<item name="android:windowTitleStyle">@style/CustomWindowTitle</item>
+		<item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+		<item name="android:windowNoTitle">false</item>
+		
+		<!--   your app branding color for the app bar -->
 		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-	</style>-->
-
-	<!-- Base application theme. -->
-	<!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		&lt;!&ndash; Customize your theme here. &ndash;&gt;
-		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-		<item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
-	</style>-->
-
-	<style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
 		<item name="colorAccent">@color/colorAccent</item>
 	</style>
 	
 	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-		<!--<item name="android:background">@color/white</item>-->
+	<style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
 		<!-- Customize your theme here. -->
-		<!--<item name="colorPrimary">@color/colorPrimary</item>
+		
+		<!--   your app branding color for the app bar -->
+		<item name="colorPrimary">@color/colorPrimary</item>
 		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>-->
-		<item name="android:windowAllowEnterTransitionOverlap" tools:targetApi="lollipop">true</item>
-		<item name="android:windowAllowReturnTransitionOverlap" tools:targetApi="lollipop">true</item>
-		<item name="android:windowSharedElementsUseOverlay" tools:targetApi="lollipop">false</item>
+		<item name="colorAccent">@color/colorAccent</item>
+	</style>
+	
+	<!-- Changes the background color of the title bar -->
+	<style name="CustomWindowTitleBackground">
+		<item name="android:background">@android:color/black</item>
+	</style>
+	
+	<!-- Set the theme for the window title -->
+	<style name="CustomWindowTitle">
+		<item name="android:singleLine">true</item>
+		<item name="android:textAppearance">@style/CustomWindowTitleText</item>
+	</style>
+	
+	<style name="CustomWindowTitleText">
+		<item name="android:textColor">@android:color/transparent</item>
 	</style>
 	
 	<style name="AppTheme.Translucent">
@@ -43,5 +48,7 @@
 		<item name="android:windowNoTitle">true</item>
 		<item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">true</item>
 	</style>
-
+	
+	<style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Dark">
+	</style>
 </resources>

@@ -1,5 +1,12 @@
 package universe.sortalgorithmssimulation.sorting_algorithms;
 
+import android.os.Process;
+import android.util.Log;
+
+import timber.log.Timber;
+
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+
 /**
  * Created by Nhat on 5/22/2017.
  */
@@ -9,6 +16,7 @@ public abstract class BaseSortAlgorithm implements Runnable {
 
     protected Callback mCallback;
     protected boolean isRunning;
+    private boolean elementsChangedBeforeRunning;
 
     public void setCallback(Callback callback) {
         mCallback = callback;
@@ -18,25 +26,43 @@ public abstract class BaseSortAlgorithm implements Runnable {
         if (isRunning) {
             throw new IllegalStateException("Algorithm is running");
         }
+        Log.d("Nhat", "Set element");
         this.elements = elements;
+        elementsChangedBeforeRunning = true;
     }
 
-    public void setRunning(boolean running) {
-        isRunning = running;
+    void setRunning(boolean a) {
+
     }
 
-    public boolean isRunning() {
-        return isRunning;
+    public void stopExecute() {
+        Timber.d("Stop exe");
+        isRunning = false;
     }
 
     @Override
     public void run() {
-        executeIfNotRunning();
+        if(elements == null) {
+            throw new IllegalStateException("No elements need to be sorted!");
+        }
+        Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND);
+        elementsChangedBeforeRunning = false;
+        while (true) {
+            executeIfNotRunning();
+            if (elementsChangedBeforeRunning) {
+                elementsChangedBeforeRunning = false;
+            } else {
+                break;
+            }
+        }
     }
 
     private void executeIfNotRunning() {
         if (!isRunning) {
             mCallback.onPreExecute(elements);
+            if(elementsChangedBeforeRunning) {
+                return;
+            }
             isRunning = true;
             execute();
             mCallback.onFinished(elements);

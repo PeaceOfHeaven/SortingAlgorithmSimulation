@@ -1,71 +1,63 @@
 package universe.sortalgorithmssimulation.activity.presenters;
 
-import universe.sortalgorithmssimulation.activity.views.BaseSortView;
-import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
+import universe.sortalgorithmssimulation.activity.views.SelectionSortView;
 import universe.sortalgorithmssimulation.sorting_algorithms.SelectionSort;
 
 /**
  * Created by Nhat on 5/25/2017.
  */
 
-public class SelectionSortPresenter extends BaseSortPresenter implements SelectionSort.Callback{
+public class SelectionSortPresenter extends BaseSortPresenter<SelectionSort, SelectionSortView>
+                                    implements SelectionSort.Callback{
 
-    private SelectionSort mSelectionSort;
-    private SelectionSortPresenter.View mSelectionSortView;
-
-    public SelectionSortPresenter(BaseSortAlgorithm sortAlogrithm, int[] elements, MainView mainView
-                    , BaseSortView selectionSortView) {
-        super(sortAlogrithm, elements, mainView);
-        mSelectionSort = (SelectionSort) sortAlogrithm;
-        mSelectionSort.setCallback(this);
-        mSelectionSortView = (SelectionSortPresenter.View) selectionSortView;
+    public SelectionSortPresenter(SelectionSort sortAlogrithm, MainView mainView
+                    , SelectionSortView selectionSortView) {
+        super(sortAlogrithm, mainView, selectionSortView);
+        mSortAlogrithm.setCallback(this);
     }
 
     @Override
     public void onPreExecute(int[] elements) {
-        mSelectionSortView.showBalls(elements);
-        firstTimePause();
+        handlePreExecute(elements);
     }
 
     @Override
     public void onFinished(int[] sortedElements) {
-        mMainView.toggleFinished();
-        mSelectionSortView.showFinished(sortedElements);
-        delay();
+        handleFinished(sortedElements);
     }
 
     @Override
     public void onCompare(int index1, boolean enable) {
         pauseWhenNeeded();
-        mSelectionSortView.highlightComparingBall(index1, enable);
-        delay();
+        mSortView.highlightComparingBall(index1, enable);
+        delayShort();
     }
 
     @Override
     public void onMinChange(int newIndex, int oldIndex) {
         pauseWhenNeeded();
-        mSelectionSortView.highlightComparingBall(newIndex, true);
+        mSortView.highlightComparingBall(newIndex, true);
         if(oldIndex != -1) {
-            mSelectionSortView.highlightComparingBall(oldIndex, false);
+            mSortView.highlightComparingBall(oldIndex, false);
         }
-        delay();
+        delayShort();
     }
 
     @Override
     public void onSwap(int index, int minIndex) {
         pauseWhenNeeded();
-        mSelectionSortView.switchPairOfBalls(index, minIndex);
-        delay();
+        mSortView.switchPairOfBalls(index, minIndex);
+        delayShort();
     }
 
     @Override
     public void onSortedBall(int index) {
         pauseWhenNeeded();
-        mSelectionSortView.highlightSortedBall(index);
-        delay();
+        mSortView.highlightSortedBall(index);
+        delayShort();
     }
 
-    public interface View extends BaseView {
+    public interface View extends BaseSortPresenter.BaseView {
         void highlightComparingBall(int index, boolean active);
 
         void highlightSortedBall(int index);

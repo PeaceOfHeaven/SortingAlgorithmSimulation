@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="ball_size">48dp</dimen>
+	<dimen name="text_ball_size">18sp</dimen>
+	<dimen name="gif_height">340dp</dimen>
+	<dimen name="picker_recycler_margin">92dp</dimen>
+</resources>
