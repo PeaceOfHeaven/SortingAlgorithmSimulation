@@ -8,6 +8,13 @@ import android.graphics.Path;
 
 public final class PathUtils {
 
+    public static Path createPathTo(float startX, float startY, float endX, float endY) {
+        Path path = new Path();
+        path.moveTo(startX, startY);
+        path.lineTo(endX, endY);
+        return path;
+    }
+
     public static Path createQuadraticBezier(float startX, float startY,
                                              float ctrlPointX, float ctrlPointY,
                                              float endX, float endY) {

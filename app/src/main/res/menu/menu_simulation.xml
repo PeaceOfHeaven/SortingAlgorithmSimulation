@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	
+	<group android:id="@+id/action_generate">
+		<item android:id="@+id/action_random"
+			android:title="Random"
+			app:showAsAction="never" />
+		<item android:id="@+id/action_reversed"
+			android:title="Reversed"
+			app:showAsAction="never" />
+		<item android:id="@+id/action_few_unique"
+			android:title="Few Unique"
+			app:showAsAction="never" />
+		
+		<item android:id="@+id/action_sorted"
+			android:title="Sorted"
+			app:showAsAction="never" />
+	</group>
+</menu>

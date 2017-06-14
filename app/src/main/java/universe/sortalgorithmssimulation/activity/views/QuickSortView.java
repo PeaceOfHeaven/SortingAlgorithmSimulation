@@ -25,15 +25,17 @@ public class QuickSortView extends BaseSortView implements QuickSortPresenter.Vi
 
     @Override
     public void showFinished(int[] elements) {
-        for (int i = 0; i < elements.length; i++) {
-            mBalls[i].switchBall(mFinishedBall);
+        for (Ball ball : mBalls) {
+            // ball.bitmap = mFinishedBall;
+            ball.state = State.FINISHED;
         }
         drawPanel();
     }
 
     @Override
     public void highlightComparingBall(int index, boolean active) {
-        mBalls[index].switchBall(active ? mComparingBall : mIdleBall);
+        // mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
+        mBalls[index].state = active ? State.COMPARING : State.IDLE;
         drawPanel();
     }
 

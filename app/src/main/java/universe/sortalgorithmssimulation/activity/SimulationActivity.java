@@ -1,9 +1,12 @@
 package universe.sortalgorithmssimulation.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,29 +21,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 import universe.sortalgorithmssimulation.R;
-import universe.sortalgorithmssimulation.SortAlogirthmsApplication;
 import universe.sortalgorithmssimulation.activity.presenters.BaseSortPresenter;
-import universe.sortalgorithmssimulation.activity.presenters.BinaryInsertionSortPresenter;
-import universe.sortalgorithmssimulation.activity.presenters.BubbleSortPresenter;
-import universe.sortalgorithmssimulation.activity.presenters.InsertionSortPresenter;
-import universe.sortalgorithmssimulation.activity.presenters.QuickSortPresenter;
-import universe.sortalgorithmssimulation.activity.presenters.SelectionSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.BaseSortView;
-import universe.sortalgorithmssimulation.activity.views.BinaryInsertionSortView;
-import universe.sortalgorithmssimulation.activity.views.BubbleSortView;
-import universe.sortalgorithmssimulation.activity.views.InsertionSortView;
-import universe.sortalgorithmssimulation.activity.views.QuickSortView;
-import universe.sortalgorithmssimulation.activity.views.SelectionSortView;
-import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
 import universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo;
-
-import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BINARY_INSERTION_SORT;
-import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.BUBBLE_SORT;
-import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.INSERTION_SORT;
-import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.QUICK_SORT;
-import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithmInfo.Type.SELECTION_SORT;
+import universe.sortalgorithmssimulation.utils.ElementGenerator;
 
 public class SimulationActivity extends AppCompatActivity implements SurfaceHolder.Callback, BaseSortPresenter.MainView {
+
+    private final int MAX_SIZE = 7;
+    private static final String EXTRA_KEY_TYPE = "type";
 
     @BindView(R.id.surface_container)
     FrameLayout surfaceContainer;
@@ -49,74 +38,59 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
     FloatingActionButton pauseResumeFab;
 
     private BaseSortPresenter mPresenter;
+    BaseSortView surface;
+    private int[] mCurrentElements;
+    private Menu mMenu;
+
+    public static Intent getStarterIntent(Context context, int sortAlgorithmType) {
+        Intent intent = new Intent(context, SimulationActivity.class);
+        intent.putExtra(EXTRA_KEY_TYPE, sortAlgorithmType);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_coor);
+        setContentView(R.layout.activity_sort_simulation);
         getWindow().setBackgroundDrawable(null);
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        int type = intent.getIntExtra("type", -1);
-        SortAlgorithmInfo sortAlgorithmInfo = SortAlogirthmsApplication.getSortAlgorithm(type);
+        int type = intent.getIntExtra(EXTRA_KEY_TYPE, -1);
+        SortAlgorithmInfo sortAlgorithmInfo = SortAlgorithmInfo.getInstance(type);
         if (sortAlgorithmInfo == null) {
             finish();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(sortAlgorithmInfo.getTitle());
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             findViewById(R.id.elevation_pre_lollipop).setVisibility(View.GONE);
         }
 
-        BaseSortView surface = getView(type);
+        int[] elements = ElementGenerator.generate(MAX_SIZE, ElementGenerator.RANDOM);
+        mPresenter = SortPresenterFactory.provideSortPresenter(this, this, type);
+        mPresenter.setElements(elements);
+
+        surface = (BaseSortView) mPresenter.getSView();
         surface.getHolder().addCallback(this);
-
-        BaseSortAlgorithm sortAlgorithmExecutable = SortAlogirthmsApplication
-                .getSortAlgorithm(type).getAlgorithmExecuteable();
-
-        int[] elements = new int[]{8, 6, 1, 3, 2, 10, 4};
-        mPresenter = getPresenter(type, elements, sortAlgorithmExecutable, surface);
-
         surfaceContainer.addView(surface);
+        Timber.d("onCreate");
     }
 
-    private BaseSortPresenter getPresenter(int type, int[] elements,
-                                           BaseSortAlgorithm sortAlgorithmExecutable,
-                                           BaseSortView view) {
-        switch (type) {
-            case BUBBLE_SORT:
-                return new BubbleSortPresenter(sortAlgorithmExecutable, elements, this, view);
-            case INSERTION_SORT:
-                return new InsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
-            case BINARY_INSERTION_SORT:
-                return new BinaryInsertionSortPresenter(sortAlgorithmExecutable, elements, this, view);
-            case SELECTION_SORT:
-                return new SelectionSortPresenter(sortAlgorithmExecutable, elements, this, view);
-            case QUICK_SORT:
-                return new QuickSortPresenter(sortAlgorithmExecutable, elements, this, view);
-        }
-        return null;
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putString("nhat", "nhat");
+        super.onSaveInstanceState(outState, outPersistentState);
+        Timber.d("onSaveInstanceState");
     }
 
-    private BaseSortView getView(int type) {
-        switch (type) {
-            case BUBBLE_SORT:
-                return new BubbleSortView(this);
-            case INSERTION_SORT:
-                return new InsertionSortView(this);
-            case BINARY_INSERTION_SORT:
-                return new BinaryInsertionSortView(this);
-            case SELECTION_SORT:
-                return new SelectionSortView(this);
-            case QUICK_SORT:
-                return new QuickSortView(this);
-        }
-        return null;
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Timber.d("onRestoreInstanceState");
     }
 
     @Override
@@ -145,13 +119,16 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
 
     @Override
     protected void onDestroy() {
+        surface.getHolder().removeCallback(this);
+        mPresenter.stop();
         super.onDestroy();
         Timber.d("onDestroy");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.coor_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_simulation, menu);
+        mMenu = menu;
         return true;
     }
 
@@ -162,26 +139,28 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.info_action:
-                startActivity(new Intent(this, InfoActivity.class));
-                return true;
+            case R.id.action_random:
+                mCurrentElements = ElementGenerator.generate(MAX_SIZE, ElementGenerator.RANDOM);
+                break;
+            case R.id.action_reversed:
+                mCurrentElements = ElementGenerator.generate(MAX_SIZE, ElementGenerator.REVERSED);
+                break;
+            case R.id.action_few_unique:
+                mCurrentElements = ElementGenerator.generate(MAX_SIZE, ElementGenerator.FEW_UNIQUE);
+                break;
+            case R.id.action_sorted:
+                mCurrentElements = ElementGenerator.generate(MAX_SIZE, ElementGenerator.SORTED);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        mPresenter.setElements(mCurrentElements);
+        return true;
     }
 
     @OnClick(R.id.btn_pause_resume)
     public void togglePauseResume() {
-        /*if(mPresenter.isRunning()) {
-            if(mPresenter.isPaused()) {
-                mPresenter.resume();
-            } else {
-                mPresenter.pause();
-            }
-        } else {
-            mPresenter.start();
-        }*/
-
-        if(mPresenter.isPaused()) {
+        if (mPresenter.isPaused()) {
             mPresenter.start();
         } else {
             mPresenter.pause();
@@ -192,6 +171,7 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
         Timber.d("surfaceCreated");
+        mPresenter.attachViews(this, (BaseSortPresenter.BaseView) surface);
         mPresenter.start();
     }
 
@@ -204,32 +184,37 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
         // TODO Auto-generated method stub
-        mPresenter.stop();
+        holder.getSurface().release();
+        mPresenter.detachViews();
+        mPresenter.pauseHome();
         Timber.d("surfaceDestroyed");
     }
 
 
     @Override
     public void togglePauseFab(final boolean active) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (active) {
-                    pauseResumeFab.setImageResource(R.drawable.play);
-                } else {
-                    pauseResumeFab.setImageResource(R.drawable.pause);
-                }
-            }
-        });
+        if (active) {
+            pauseResumeFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+        } else {
+            pauseResumeFab.setImageResource(R.drawable.ic_pause_white_24dp);
+        }
     }
 
     @Override
     public void toggleFinished() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pauseResumeFab.setImageResource(R.drawable.ic_replay_black_24dp);
-            }
-        });
+        pauseResumeFab.setImageResource(R.drawable.ic_replay_black_24dp);
+    }
+
+    @Override
+    public void showSetElementsError() {
+        final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayoutRoot)
+                , "Alogirthm is running", Snackbar.LENGTH_LONG)
+                .setAction("Close", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+        snackbar.show();
     }
 }

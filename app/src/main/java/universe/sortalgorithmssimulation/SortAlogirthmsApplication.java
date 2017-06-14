@@ -3,6 +3,9 @@ package universe.sortalgorithmssimulation;
 import android.app.Application;
 import android.support.v4.util.SparseArrayCompat;
 
+import com.github.mikephil.charting.utils.Utils;
+import com.squareup.leakcanary.LeakCanary;
+
 import java.util.ArrayList;
 
 import timber.log.Timber;
@@ -21,8 +24,8 @@ import static universe.sortalgorithmssimulation.sorting_algorithms.SortAlgorithm
 
 public class SortAlogirthmsApplication extends Application {
 
-    private final int MAX_SIZE = 6;
-    private static SparseArrayCompat<SortAlgorithmInfo> mSortAlgorithms;
+    public static final int NUM_OF_ALGORITHMS = 6;
+    private static final SparseArrayCompat<SortAlgorithmInfo> mSortAlgorithms = new SparseArrayCompat<>(NUM_OF_ALGORITHMS);
 
     @Override
     public void onCreate() {
@@ -34,7 +37,19 @@ public class SortAlogirthmsApplication extends Application {
                  return super.createStackElementTag(element) + "Nhat";
              }
         });
-        mSortAlgorithms = new SparseArrayCompat<>(MAX_SIZE);
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
+
+        initializeSortAlogirthms();
+        Utils.init(this);
+    }
+
+    private void initializeSortAlogirthms() {
         mSortAlgorithms.put(BUBBLE_SORT, SortAlgorithmInfo.getInstance(BUBBLE_SORT));
         mSortAlgorithms.put(INSERTION_SORT, SortAlgorithmInfo.getInstance(INSERTION_SORT));
         mSortAlgorithms.put(BINARY_INSERTION_SORT, SortAlgorithmInfo.getInstance(BINARY_INSERTION_SORT));

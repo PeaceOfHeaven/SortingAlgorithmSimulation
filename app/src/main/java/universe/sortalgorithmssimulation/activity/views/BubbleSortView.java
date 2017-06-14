@@ -1,7 +1,6 @@
 package universe.sortalgorithmssimulation.activity.views;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 
@@ -26,9 +25,12 @@ public class BubbleSortView extends BaseSortView implements BubbleSortPresenter.
 
     @Override
     public void highlightComparingPairOfBalls(int first, int second, boolean active) {
-        Bitmap ballBitmap = active ? mComparingBall : mIdleBall;
-        mBalls[first].switchBall(ballBitmap);
-        mBalls[second].switchBall(ballBitmap);
+        // Bitmap bitmap = active ? mComparingBall : mIdleBall;
+        int state = active ? State.COMPARING : State.IDLE;
+//        mBalls[first].bitmap = bitmap;
+//        mBalls[second].bitmap = bitmap;
+        mBalls[first].state = state;
+        mBalls[second].state = state;
         drawPanel();
     }
 
@@ -85,12 +87,17 @@ public class BubbleSortView extends BaseSortView implements BubbleSortPresenter.
 
     @Override
     public void highlightSortedBall(int index) {
-        mBalls[index].switchBall(mFinishedBall);
+        // mBalls[index].bitmap = mFinishedBall;
+        mBalls[index].state = State.FINISHED;
         drawPanel();
     }
 
     @Override
     public void showFinished(int[] elements) {
-
+        for (Ball ball : mBalls) {
+            // ball.bitmap = mFinishedBall;
+            ball.state = State.FINISHED;
+        }
+        drawPanel();
     }
 }

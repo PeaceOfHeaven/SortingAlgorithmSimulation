@@ -1,68 +1,67 @@
 package universe.sortalgorithmssimulation.activity.presenters;
 
-import universe.sortalgorithmssimulation.activity.views.BaseSortView;
-import universe.sortalgorithmssimulation.sorting_algorithms.BaseSortAlgorithm;
+import universe.sortalgorithmssimulation.activity.views.InsertionSortView;
 import universe.sortalgorithmssimulation.sorting_algorithms.InsertionSort;
 
 /**
  * Created by Nhat on 5/23/2017.
  */
 
-public class InsertionSortPresenter extends BaseSortPresenter implements InsertionSort.Callback {
+public class InsertionSortPresenter extends BaseSortPresenter<InsertionSort, InsertionSortView>
+                                    implements InsertionSort.Callback {
 
-    private InsertionSort mInsertionSort;
-    private InsertionSortPresenter.View mInsertionSortView;
-
-    public InsertionSortPresenter(BaseSortAlgorithm sortAlogrithm, int[] elements,
-                                  MainView mainView, BaseSortView insertionSortView) {
-        super(sortAlogrithm, elements, mainView);
-        mInsertionSort = (InsertionSort) sortAlogrithm;
-        mInsertionSort.setCallback(this);
-        mInsertionSortView = (View) insertionSortView;
+    public InsertionSortPresenter(InsertionSort insertionSort, MainView mainView,
+                                  InsertionSortView insertionSortView) {
+        super(insertionSort, mainView, insertionSortView);
+        mSortAlogrithm.setCallback(this);
     }
 
     @Override
     public void onPreExecute(int[] elements) {
-        mInsertionSortView.showBalls(elements);
-        firstTimePause();
+        handlePreExecute(elements);
     }
 
     @Override
     public void onFinished(int[] sortedElements) {
-        mMainView.toggleFinished();
-        mInsertionSortView.showFinished(sortedElements);
+        handleFinished(sortedElements);
     }
 
     @Override
     public void onSelectedElement(int index) {
         pauseWhenNeeded();
-        mInsertionSortView.moveSelectedBall(index);
-        delay();
+        if (mSortView != null) {
+            mSortView.moveSelectedBall(index);
+            delayShort();
+        }
     }
 
     @Override
     public void onCompare(int index, boolean enable) {
         pauseWhenNeeded();
-        mInsertionSortView.highlightComparingBall(index, enable);
-        delayNormal();
+        if (mSortView != null) {
+            mSortView.highlightComparingBall(index, enable);
+            delayNormal();
+        }
     }
 
     @Override
     public void onShiftRightElementByOne(int index) {
         pauseWhenNeeded();
-        mInsertionSortView.moveGreaterBallToRight(index);
-        delay();
+        mSortView.moveGreaterBallToRight(index);
+        delayShort();
     }
 
     @Override
     public void onShiftLeftElement(int index, int leftPos) {
         pauseWhenNeeded();
-        mInsertionSortView.moveLesserBallToLeft(index, leftPos);
-        mInsertionSortView.highlightComparingBall(leftPos, false);
-        delay();
+        if (mSortView != null) {
+            mSortView.moveLesserBallToLeft(index, leftPos);
+            mSortView.highlightComparingBall(leftPos, false);
+            delayShort();
+        }
     }
 
-    public interface View extends BaseView {
+    public interface View extends BaseSortPresenter.BaseView {
         void highlightComparingBall(int index, boolean active);
 
         void moveSelectedBall(int index);

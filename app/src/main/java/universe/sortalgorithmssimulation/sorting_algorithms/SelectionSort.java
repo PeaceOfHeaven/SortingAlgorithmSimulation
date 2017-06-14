@@ -3,7 +3,6 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/25/2017.
  */
-
 public class SelectionSort extends BaseSortAlgorithm {
 
     private final SelectionSort.Callback mFakeCallback = new Callback() {

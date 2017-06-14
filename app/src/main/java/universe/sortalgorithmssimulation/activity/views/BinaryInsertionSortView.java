@@ -1,7 +1,6 @@
 package universe.sortalgorithmssimulation.activity.views;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import universe.sortalgorithmssimulation.activity.presenters.BinaryInsertionSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.model.Ball;
@@ -24,21 +23,23 @@ public class BinaryInsertionSortView extends BaseSortView implements BinaryInser
     @Override
     public void showFinished(int[] elements) {
         for (Ball ball : mBalls) {
-            ball.switchBall(mFinishedBall);
+            // ball.bitmap = mFinishedBall;
+            ball.state = State.FINISHED;
         }
         drawPanel();
     }
 
     @Override
     public void highlightComparingBall(int index, boolean active) {
-        Bitmap ballBitmap = active ? mComparingBall : mIdleBall;
-        mBalls[index].switchBall(ballBitmap);
+        // mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
+        mBalls[index].state = active ? State.COMPARING : State.IDLE;
         drawPanel();
     }
 
     @Override
     public void moveSelectedBall(int index) {
-        mBalls[index].switchBall(mFinishedBall);
+        // mBalls[index].bitmap = mFinishedBall;
+        mBalls[index].state = State.FINISHED;
 
         float y = mBalls[index].y - mBallDistance;
         int step = (int) ((mBalls[index].y - y) * 0.1);
