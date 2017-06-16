@@ -1,3 +1,4 @@
+
 package universe.sortalgorithmssimulation.activity.presenters;
 
 import universe.sortalgorithmssimulation.activity.views.MergeSortView;
@@ -92,3 +93,4 @@ public class MergeSortPresenter extends BaseSortPresenter<MergeSort, MergeSortVi
         void finishMerge(int left);
     }
 }
+

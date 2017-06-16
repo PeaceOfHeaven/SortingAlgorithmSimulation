@@ -47,8 +47,10 @@ public class InsertionSortPresenter extends BaseSortPresenter<InsertionSort, Ins
     @Override
     public void onShiftRightElementByOne(int index) {
         pauseWhenNeeded();
-        mSortView.moveGreaterBallToRight(index);
-        delayShort();
+        if (mSortView != null) {
+            mSortView.moveGreaterBallToRight(index);
+            delayShort();
+        }
     }
 
     @Override
