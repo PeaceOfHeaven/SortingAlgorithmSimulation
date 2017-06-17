@@ -21,3 +21,14 @@ I have used one helpful tool called **[HPROF](https://developer.android.com/stud
 
 
 
+Screens
+-----
+
+- **Small Screen**
+
+<img src="https://github.com/PeaceOfHeaven/SortingAlgorithmSimulation/blob/master/screenshots/device-2017-06-16-223406.png" width="303" height="595" > <img src="https://github.com/PeaceOfHeaven/SortingAlgorithmSimulation/blob/master/screenshots/device-2017-06-16-223535.png" width="303" height="595" >
+
+<img src="https://github.com/PeaceOfHeaven/SortingAlgorithmSimulation/blob/master/screenshots/device-2017-06-16-223619.png" width="303" height="595" >
+
+
+
