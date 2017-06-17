@@ -20,15 +20,13 @@ public class SelectionSortView extends BaseSortView implements SelectionSortPres
 
     @Override
     public void highlightComparingBall(int index, boolean active) {
-        // mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
-        mBalls[index].state = active ? State.COMPARING : State.IDLE;
+        mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
         drawPanel();
     }
 
     @Override
     public void highlightSortedBall(int index) {
-        // mBalls[index].bitmap = mFinishedBall;
-        mBalls[index].state = State.FINISHED;
+        mBalls[index].bitmap = mFinishedBall;
         drawPanel();
     }
 

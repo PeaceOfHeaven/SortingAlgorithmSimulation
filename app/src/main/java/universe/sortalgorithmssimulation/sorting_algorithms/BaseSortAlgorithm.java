@@ -1,9 +1,7 @@
 package universe.sortalgorithmssimulation.sorting_algorithms;
 
-import android.os.Process;
 import android.support.annotation.NonNull;
 
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -43,7 +41,7 @@ public abstract class BaseSortAlgorithm<C extends BaseSortAlgorithm.Callback> im
         if(elements == null) {
             throw new IllegalStateException("No elements need to be sorted!");
         }
-        Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND);
+        // Process.setThreadPriority(THREAD_PRIORITY_BACKGROUND);
         elementsChangedBeforeRunning = false;
         while (true) {
             executeIfNotRunning();

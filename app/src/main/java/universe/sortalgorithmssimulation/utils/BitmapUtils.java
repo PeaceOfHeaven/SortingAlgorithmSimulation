@@ -15,15 +15,30 @@ import android.util.Log;
 
 public final class BitmapUtils {
 
+    private static BitmapFactory.Options options;
+
     private BitmapUtils() {
     }
 
     public static Bitmap loadResizedBitmap(Resources resources, int drawableId, int width, int height) {
+        /*if(options == null) {
+            options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeResource(resources, drawableId, options);
+            int srcWidth = options.outWidth;
+            options.inJustDecodeBounds = false;
+            options.inScaled = true;
+            options.inSampleSize = 4;
+            options.inDensity = srcWidth;
+            options.inTargetDensity = width * options.inSampleSize;
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        }
+        return BitmapFactory.decodeResource(resources, drawableId, options);*/
         return getResizedBitmap(BitmapFactory.decodeResource(resources, drawableId), width, height);
     }
 
-    public static Bitmap getResizedBitmap(Bitmap image, int bitmapWidth, int bitmapHeight) {
-        return Bitmap.createScaledBitmap(image, bitmapWidth, bitmapHeight, true);
+    public static Bitmap getResizedBitmap(Bitmap bitmap, int bitmapWidth, int bitmapHeight) {
+        return Bitmap.createScaledBitmap(bitmap, bitmapWidth, bitmapHeight, true);
     }
 
     public static Bitmap drawTextToBitmap(Bitmap bitmap, float scale, String gText) {

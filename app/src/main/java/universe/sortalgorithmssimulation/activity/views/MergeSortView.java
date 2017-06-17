@@ -24,8 +24,7 @@ public class MergeSortView extends BaseSortView implements MergeSortPresenter.Vi
 
     @Override
     public void highlightComparingBall(int index, boolean active) {
-        mBalls[index].state = active ? State.COMPARING : State.IDLE;
-        // mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
+        mBalls[index].bitmap = active ? mComparingBall : mIdleBall;
         drawPanel();
     }
 
@@ -102,8 +101,7 @@ public class MergeSortView extends BaseSortView implements MergeSortPresenter.Vi
     @Override
     public void showFinished(int[] elements) {
         for (Ball ball : mBalls) {
-            // ball.bitmap = mFinishedBall;
-            ball.state = State.FINISHED;
+            ball.bitmap = mFinishedBall;
         }
         drawPanel();
     }
