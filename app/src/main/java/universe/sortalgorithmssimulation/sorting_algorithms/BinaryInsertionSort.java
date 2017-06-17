@@ -3,7 +3,7 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/26/2017.
  */
-public class BinaryInsertionSort extends BaseSortAlgorithm {
+public class BinaryInsertionSort extends BaseSortAlgorithm<BinaryInsertionSort.Callback> {
 
     private final BinaryInsertionSort.Callback mFakeCallback = new Callback() {
         @Override
@@ -37,41 +37,34 @@ public class BinaryInsertionSort extends BaseSortAlgorithm {
         }
     };
 
-    public void setCallback(BaseSortAlgorithm.Callback callback) {
-        if (callback != null && !(callback instanceof BinaryInsertionSort.Callback)) {
-            throw new IllegalArgumentException("quickSortCallback should be instance of BinaryInsertionSort.Callback");
-        } else if (callback == null) {
-            callback = mFakeCallback;
-        }
-        super.setCallback(callback);
+    public BinaryInsertionSort() {
+        mCallback = mFakeCallback;
     }
 
     @Override
     protected void execute() {
-        BinaryInsertionSort.Callback callback = (Callback) mCallback;
-
         for(int i = 1; i < elements.length && isRunning; i++) {
             int x = elements[i];
             int left = 0;
             int right = i - 1;
-            callback.onSelectedElement(i);
+            mCallback.onSelectedElement(i);
 
             while (left <= right && isRunning) {
                 int mid = (left + right) / 2;
-                callback.onCompare(mid, true);
+                mCallback.onCompare(mid, true);
                 if (x < elements[mid]) {
                     right = mid - 1;
                 } else {
                     left = mid + 1;
                 }
-                callback.onCompare(mid, false);
+                mCallback.onCompare(mid, false);
             }
             for (int j = i - 1; j >= left && isRunning; j--) {
                 elements[j + 1] = elements[j];
-                callback.onShiftRightElementByOne(j);
+                mCallback.onShiftRightElementByOne(j);
             }
             elements[left] = x;
-            callback.onShiftLeftElement(i, left);
+            mCallback.onShiftLeftElement(i, left);
         }
     }
 

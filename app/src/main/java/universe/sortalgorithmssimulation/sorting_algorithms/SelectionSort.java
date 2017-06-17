@@ -3,7 +3,7 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/25/2017.
  */
-public class SelectionSort extends BaseSortAlgorithm {
+public class SelectionSort extends BaseSortAlgorithm<SelectionSort.Callback> {
 
     private final SelectionSort.Callback mFakeCallback = new Callback() {
         @Override
@@ -34,41 +34,34 @@ public class SelectionSort extends BaseSortAlgorithm {
         }
     };
 
-    public void setCallback(BaseSortAlgorithm.Callback callback) {
-        if (callback != null && !(callback instanceof SelectionSort.Callback)) {
-            throw new IllegalArgumentException("quickSortCallback should be SelectionSort.Callback");
-        } else if(callback == null) {
-            callback = mFakeCallback;
-        }
-        super.setCallback(callback);
+    public SelectionSort() {
+        mCallback = mFakeCallback;
     }
 
     @Override
     protected void execute() {
-        SelectionSort.Callback callback = (Callback) mCallback;
-
         for(int i = 0; i < elements.length-1 && isRunning; i++) {
             int min = i;
-            callback.onMinChange(i, -1);
+            mCallback.onMinChange(i, -1);
             for (int j = i + 1; j < elements.length && isRunning; j++) {
-                callback.onCompare(j, true);
+                mCallback.onCompare(j, true);
                 if(elements[j] < elements[min]) {
                     int oldIndex = min;
                     min = j;
-                    callback.onMinChange(min, oldIndex);
+                    mCallback.onMinChange(min, oldIndex);
                 } else {
-                    callback.onCompare(j, false);
+                    mCallback.onCompare(j, false);
                 }
             }
             if(min != i) {
                 int temp = elements[i];
                 elements[i] = elements[min];
                 elements[min] = temp;
-                callback.onSwap(i, min);
+                mCallback.onSwap(i, min);
             }
-            callback.onSortedBall(i);
+            mCallback.onSortedBall(i);
         }
-        callback.onSortedBall(elements.length-1);
+        mCallback.onSortedBall(elements.length-1);
     }
 
     public interface Callback extends BaseSortAlgorithm.Callback {

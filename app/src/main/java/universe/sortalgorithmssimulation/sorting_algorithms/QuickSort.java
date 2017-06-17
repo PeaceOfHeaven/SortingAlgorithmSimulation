@@ -3,9 +3,8 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/26/2017.
  */
-public class QuickSort extends BaseSortAlgorithm {
+public class QuickSort extends BaseSortAlgorithm<QuickSort.Callback> {
 
-    private QuickSort.Callback mQuickSortCallback;
     private final QuickSort.Callback mFakeCallback = new Callback() {
         @Override
         public void onCompare(int index, boolean enable) {
@@ -28,15 +27,8 @@ public class QuickSort extends BaseSortAlgorithm {
         }
     };
 
-    @Override
-    public void setCallback(BaseSortAlgorithm.Callback callback) {
-        if (callback != null && !(callback instanceof QuickSort.Callback)) {
-            throw new IllegalArgumentException("mQuickSortCallback should be instance of doQuickSort.Callback");
-        } else if (callback == null) {
-            callback = mFakeCallback;
-        }
-        super.setCallback(callback);
-        mQuickSortCallback = (Callback) callback;
+    public QuickSort() {
+        mCallback = mFakeCallback;
     }
 
     @Override
@@ -50,7 +42,7 @@ public class QuickSort extends BaseSortAlgorithm {
         j = right;
         x = elements[(left + right)/2];
 
-        mQuickSortCallback.onCompare((left + right)/2, true);
+        mCallback.onCompare((left + right)/2, true);
         while (i < j) {
             while (onCompare(i) && elements[i] < x) {
                 i++;
@@ -60,7 +52,7 @@ public class QuickSort extends BaseSortAlgorithm {
             }
             if (i <= j) {
                 if(i != j) {
-                    mQuickSortCallback.onSwap(i, j);
+                    mCallback.onSwap(i, j);
                     int temp = elements[i];
                     elements[i] = elements[j];
                     elements[j] = temp;
@@ -68,7 +60,7 @@ public class QuickSort extends BaseSortAlgorithm {
                 i++; j--;
             }
         }
-        mQuickSortCallback.onCompare((left + right)/2, false);
+        mCallback.onCompare((left + right)/2, false);
         if (left < j)
             doQuickSort(left, j);
         if (i < right)
@@ -76,8 +68,8 @@ public class QuickSort extends BaseSortAlgorithm {
     }
 
     private boolean onCompare(int i) {
-        mQuickSortCallback.onCompare(i, true);
-        mQuickSortCallback.onCompare(i, false);
+        mCallback.onCompare(i, true);
+        mCallback.onCompare(i, false);
         return true;
     }
 

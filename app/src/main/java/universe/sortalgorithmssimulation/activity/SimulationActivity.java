@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
@@ -19,7 +18,6 @@ import android.widget.FrameLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 import universe.sortalgorithmssimulation.R;
 import universe.sortalgorithmssimulation.activity.presenters.BaseSortPresenter;
 import universe.sortalgorithmssimulation.activity.views.BaseSortView;
@@ -32,15 +30,14 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
     private static final String EXTRA_KEY_TYPE = "type";
 
     @BindView(R.id.surface_container)
-    FrameLayout surfaceContainer;
+    FrameLayout mSurfaceContainer;
 
     @BindView(R.id.btn_pause_resume)
-    FloatingActionButton pauseResumeFab;
+    FloatingActionButton mPauseResumeFab;
 
     private BaseSortPresenter mPresenter;
-    BaseSortView surface;
+    private BaseSortView mSurface;
     private int[] mCurrentElements;
-    private Menu mMenu;
 
     public static Intent getStarterIntent(Context context, int sortAlgorithmType) {
         Intent intent = new Intent(context, SimulationActivity.class);
@@ -74,61 +71,14 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
         mPresenter = SortPresenterFactory.provideSortPresenter(this, this, type);
         mPresenter.setElements(elements);
 
-        surface = (BaseSortView) mPresenter.getSView();
-        surface.getHolder().addCallback(this);
-        surfaceContainer.addView(surface);
-        Timber.d("onCreate");
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putString("nhat", "nhat");
-        super.onSaveInstanceState(outState, outPersistentState);
-        Timber.d("onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Timber.d("onRestoreInstanceState");
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Timber.d("onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Timber.d("onResume");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Timber.d("onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Timber.d("onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        surface.getHolder().removeCallback(this);
-        mPresenter.stop();
-        super.onDestroy();
-        Timber.d("onDestroy");
+        mSurface = (BaseSortView) mPresenter.getSView();
+        mSurface.getHolder().addCallback(this);
+        mSurfaceContainer.addView(mSurface);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_simulation, menu);
-        mMenu = menu;
         return true;
     }
 
@@ -158,20 +108,10 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
         return true;
     }
 
-    @OnClick(R.id.btn_pause_resume)
-    public void togglePauseResume() {
-        if (mPresenter.isPaused()) {
-            mPresenter.start();
-        } else {
-            mPresenter.pause();
-        }
-    }
-
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         // TODO Auto-generated method stub
-        Timber.d("surfaceCreated");
-        mPresenter.attachViews(this, (BaseSortPresenter.BaseView) surface);
+        mPresenter.attachViews(this, (BaseSortPresenter.BaseView) mSurface);
         mPresenter.start();
     }
 
@@ -187,22 +127,36 @@ public class SimulationActivity extends AppCompatActivity implements SurfaceHold
         holder.getSurface().release();
         mPresenter.detachViews();
         mPresenter.pauseHome();
-        Timber.d("surfaceDestroyed");
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSurface.getHolder().removeCallback(this);
+        mPresenter.stop();
+    }
+
+    @OnClick(R.id.btn_pause_resume)
+    public void togglePauseResume() {
+        if (mPresenter.isPaused()) {
+            mPresenter.start();
+        } else {
+            mPresenter.pause();
+        }
+    }
 
     @Override
-    public void togglePauseFab(final boolean active) {
+    public void togglePauseFab(boolean active) {
         if (active) {
-            pauseResumeFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+            mPauseResumeFab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
         } else {
-            pauseResumeFab.setImageResource(R.drawable.ic_pause_white_24dp);
+            mPauseResumeFab.setImageResource(R.drawable.ic_pause_white_24dp);
         }
     }
 
     @Override
     public void toggleFinished() {
-        pauseResumeFab.setImageResource(R.drawable.ic_replay_black_24dp);
+        mPauseResumeFab.setImageResource(R.drawable.ic_replay_black_24dp);
     }
 
     @Override

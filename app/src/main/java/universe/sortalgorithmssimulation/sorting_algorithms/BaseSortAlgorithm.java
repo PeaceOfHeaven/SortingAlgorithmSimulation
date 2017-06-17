@@ -1,24 +1,24 @@
 package universe.sortalgorithmssimulation.sorting_algorithms;
 
 import android.os.Process;
-import android.util.Log;
-
-import timber.log.Timber;
+import android.support.annotation.NonNull;
 
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by Nhat on 5/22/2017.
  */
 
-public abstract class BaseSortAlgorithm implements Runnable {
-    protected int[] elements;
+public abstract class BaseSortAlgorithm<C extends BaseSortAlgorithm.Callback> implements Runnable {
+    protected int[] elements = new int[]{};
 
-    protected Callback mCallback;
+    protected C mCallback;
     protected boolean isRunning;
     private boolean elementsChangedBeforeRunning;
 
-    public void setCallback(Callback callback) {
+    public void setCallback(@NonNull C callback) {
+        checkNotNull(callback);
         mCallback = callback;
     }
 
@@ -26,7 +26,6 @@ public abstract class BaseSortAlgorithm implements Runnable {
         if (isRunning) {
             throw new IllegalStateException("Algorithm is running");
         }
-        Log.d("Nhat", "Set element");
         this.elements = elements;
         elementsChangedBeforeRunning = true;
     }
@@ -36,7 +35,6 @@ public abstract class BaseSortAlgorithm implements Runnable {
     }
 
     public void stopExecute() {
-        Timber.d("Stop exe");
         isRunning = false;
     }
 

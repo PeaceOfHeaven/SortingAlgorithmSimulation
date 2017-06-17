@@ -21,7 +21,7 @@ public abstract class BaseSortPresenter<A extends BaseSortAlgorithm,
     private MainView mMainView;
     protected V mSortView;
     protected final A mSortAlogrithm;
-    private Object pauseLock = new Object();
+    private final Object pauseLock = new Object();
     private SortThread mSortThread;
 
     private boolean isPaused;
@@ -69,8 +69,6 @@ public abstract class BaseSortPresenter<A extends BaseSortAlgorithm,
                 mSortAlogrithm.setElements(Arrays.copyOf(mOriginElements, mOriginElements.length));
                 mSortThread = new SortThread(mSortAlogrithm);
                 mSortThread.start();
-                if(!isFirstTime)
-                    mMainView.togglePauseFab(false);
             } else {
                 mSortView.showBalls(null);
                 mMainView.toggleFinished();
@@ -102,7 +100,7 @@ public abstract class BaseSortPresenter<A extends BaseSortAlgorithm,
                 mSortAlogrithm.setElements(Arrays.copyOf(mOriginElements, mOriginElements.length));
                 isPaused = false;
                 synchronized (pauseLock) {
-                    pauseLock.notifyAll();
+                    pauseLock.notify();
                 }
             } else {
                 if (shouldPlayNow) {
@@ -155,14 +153,6 @@ public abstract class BaseSortPresenter<A extends BaseSortAlgorithm,
 
     public void pauseHome() {
         isPausedHome = true;
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(mMainView != null) {
-                    mMainView.togglePauseFab(true);
-                }
-            }
-        });
     }
 
     private void resume() {
@@ -174,16 +164,18 @@ public abstract class BaseSortPresenter<A extends BaseSortAlgorithm,
             }
         });
         synchronized (pauseLock) {
-            pauseLock.notifyAll();
+            pauseLock.notify();
         }
     }
 
     public void stop() {
+        mHandler.removeCallbacksAndMessages(null);
         mSortAlogrithm.stopExecute();
-        mSortThread = null;
         if (isPaused || isPausedHome) {
+            isPaused = false;
+            isPausedHome = false;
             synchronized (pauseLock) {
-                pauseLock.notifyAll();
+                pauseLock.notify();
             }
         }
     }

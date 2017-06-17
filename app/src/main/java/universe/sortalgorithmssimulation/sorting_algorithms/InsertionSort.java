@@ -3,7 +3,7 @@ package universe.sortalgorithmssimulation.sorting_algorithms;
 /**
  * Created by Nhat on 5/22/2017.
  */
-public class InsertionSort extends BaseSortAlgorithm {
+public class InsertionSort extends BaseSortAlgorithm<InsertionSort.Callback> {
 
     private final InsertionSort.Callback mFakeCallback = new Callback() {
         @Override
@@ -37,34 +37,27 @@ public class InsertionSort extends BaseSortAlgorithm {
         }
     };
 
-    public void setCallback(BaseSortAlgorithm.Callback callback) {
-        if (callback != null && !(callback instanceof InsertionSort.Callback)) {
-            throw new IllegalArgumentException("quickSortCallback should be InsertionSort.Callback");
-        } else if (callback == null) {
-            callback = mFakeCallback;
-        }
-        super.setCallback(callback);
+    public InsertionSort() {
+        mCallback = mFakeCallback;
     }
 
     @Override
     protected void execute() {
-        InsertionSort.Callback callback = (Callback) mCallback;
-
         for (int i = 1; i < elements.length && isRunning; i++) {
             int x = elements[i];
             int pos = i - 1;
-            callback.onSelectedElement(i);
+            mCallback.onSelectedElement(i);
             if ((pos >= 0) && (elements[pos] > x)) {
                 while ((pos >= 0) && (elements[pos] > x) && isRunning) {
                     elements[pos + 1] = elements[pos];
-                    callback.onCompare(pos, true);
-                    callback.onShiftRightElementByOne(pos);
-                    callback.onCompare(pos, false);
+                    mCallback.onCompare(pos, true);
+                    mCallback.onShiftRightElementByOne(pos);
+                    mCallback.onCompare(pos, false);
                     pos--;
                 }
             }
             elements[pos + 1] = x;
-            callback.onShiftLeftElement(i, pos + 1);
+            mCallback.onShiftLeftElement(i, pos + 1);
         }
     }
 
